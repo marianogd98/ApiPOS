@@ -1,0 +1,136 @@
+﻿<Window x:Class="wpfPos_Rios.Views.RePrintInvoiceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:wpfPos_Rios.Views"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Title="RePrintInvoiceWindow" Height="500" Width="800">
+    <Grid Background="#eee">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Height="60" VerticalAlignment="Top" Background="#004600">
+            <StackPanel Orientation="Horizontal">
+
+                <Button x:Name="BtnBack" Margin="10 0" Style="{DynamicResource MaterialDesignIconButton}" Background="Transparent" BorderThickness="0" Foreground="White" HorizontalAlignment="Left" Click="BtnBack_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeftCircle" Width="auto" Height="auto" />
+                </Button>
+                <TextBlock VerticalAlignment="Center" Text="Reimpresión de Factura" FontSize="15" FontWeight="Bold" Foreground="White" />
+
+            </StackPanel>
+        </Grid>
+        <Grid  Grid.Row="1" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <TextBlock x:Name="lblInvoice" VerticalAlignment="Center" Text="Numero de Factura:" FontSize="15" FontWeight="Bold" Margin="0 0 20 0" Foreground="Black"/>
+                        <Label x:Name="lbInvoiceNum" FontSize="12" VerticalAlignment="Center" Margin="5 0" ></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock x:Name="lblDate" Visibility="Hidden" VerticalAlignment="Center" Text="Fecha de Factura:" FontSize="15" FontWeight="Bold" Margin="0 0 20 0" Foreground="Black"/>
+                        <Label x:Name="lbInvoiceDate" FontSize="12" VerticalAlignment="Center" Margin="5 0"  HorizontalAlignment="Right"></Label>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <DockPanel>
+                    <Label x:Name="BtnBuscar" Margin="0 0" Background="#eee" BorderThickness="0" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <!--<iconPacks:BootstrapIcons Kind="Search" Width="15" Height="25"/>-->
+                    </Label>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox x:Name="txtDescrip" 
+                                    Height="25" Margin="5,8"
+                                    KeyDown="TxtDescrip_KeyDown"
+                      
+                                    TouchDown="TxtDescrip_TouchDown"
+                   
+                                     Width="400"/>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <Button x:Name="btnBuscarFac" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Click="BtnBuscarFac_Click">Buscar Factura</Button>
+
+                    </StackPanel>
+                </DockPanel>
+
+            </Grid>
+            <Grid Grid.Row="2">
+
+                <DataGrid x:Name="dgListInvoice" AutoGenerateColumns="False" IsReadOnly="True"  HorizontalScrollBarVisibility="Visible" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Rif"
+                                Binding="{Binding rif}"
+                                Width=".2*"/>
+                        <DataGridTextColumn Header="Nombre"
+                                Binding="{Binding nombre}"
+                                Width=".2*"/>
+                        <DataGridTextColumn Header="Apellido"
+                                Binding="{Binding apellido}"
+                                Width=".2*" />
+
+                        <DataGridTextColumn Header="Monto Descuento"
+                                Binding="{Binding montoDescuento}"
+                                Visibility="Hidden"                            
+                                Width=".2*" />
+                        <DataGridTextColumn Header="Monto Subtotal"
+                                Binding="{Binding montoBruto,StringFormat=N2, ConverterCulture='es-ES'}" 
+                                Width=".3*" />
+                        <DataGridTextColumn Header="Monto IVA"
+                                Binding="{Binding montoIVA,StringFormat=N2, ConverterCulture='es-ES'}"
+                                Width=".2*" />
+                        <DataGridTextColumn Header="Monto Total"
+                                Binding="{Binding montoNeto,StringFormat=N2, ConverterCulture='es-ES'}"
+                                Width=".3*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+
+
+            <!--datagrid de los productos de la factura a devolver-->
+
+            <Grid Grid.Row="4">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <Grid Width="130">
+                        <Button x:Name="btnCancel" Margin="5 5" Style="{StaticResource MaterialDesignRaisedButton}" 
+                            Height="55" materialDesign:ButtonAssist.CornerRadius="5" Click="BtnCancel_Click" Background="#d04130" >
+                            <StackPanel Orientation="Vertical" Margin="-20">
+                                <materialDesign:PackIcon Kind="Cancel" Foreground="White" Height="30" Width="35" HorizontalAlignment="Center"/>
+                                <TextBlock Text="CANCELAR" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    <Grid  Width="140">
+                        <Button x:Name="btnRePrint" Margin="10 5" Style="{StaticResource MaterialDesignRaisedButton}"
+                            Height="55" materialDesign:ButtonAssist.CornerRadius="5"  Click="BtnRePrint_Click" IsEnabled="False">
+                            <StackPanel Orientation="Vertical" Margin="-20">
+                                <materialDesign:PackIcon Kind="PrinterPos" Foreground="White" Height="30" Width="35" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Reimprimir Factura" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

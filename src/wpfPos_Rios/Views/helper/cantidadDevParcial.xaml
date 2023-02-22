@@ -1,0 +1,42 @@
+﻿<Window x:Class="wpfPos_Rios.Views.helper.cantidadDevParcial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:wpfPos_Rios.Views.helper"
+        mc:Ignorable="d"
+        Title="cantidadDevParcial" Height="300" Width="350">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Background="#004600">
+            <TextBlock VerticalAlignment="Center" Text="Cantidad" Foreground="White" FontSize="20"/>
+        </Grid>
+
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <TextBlock Name="txtProduct" TextWrapping="Wrap" FontSize="12" Margin="0 10"/>
+            <TextBox x:Name="txtbCantidadDevolver" Margin="10" Height="40" Style="{DynamicResource MaterialDesignOutlinedTextFieldTextBox}"
+                     materialDesign:HintAssist.Hint="Cantidad a devolver" TouchDown="txtbCantidadDevolver_TouchDown"
+                      />
+        </StackPanel>
+
+        
+
+        <StackPanel Grid.Row="3" Margin="5 10">
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="btnCancel" Background="#d04130" BorderBrush="Transparent" Grid.Row="2" Margin="10 0" HorizontalAlignment="Right" Foreground="White" Click="btnCancel_Click">Cancelar</Button>
+                <Button Name="btnReturn" Grid.Row="2" Margin="10 0" Foreground="White" Click="btnReturn_Click">Aceptar</Button>
+                <Button Name="btnReturnAll" Foreground="White" Background="#FC7B00" BorderBrush="Transparent" Click="btnReturnAll_Click">Devolver todo</Button>
+            </StackPanel>
+        </StackPanel>
+       
+
+    </Grid>
+</Window>

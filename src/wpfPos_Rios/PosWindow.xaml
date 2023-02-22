@@ -1,0 +1,430 @@
+﻿<Window x:Class="wpfPos_Rios.PosWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:wpfPos_Rios"
+        mc:Ignorable="d"
+        Height="768" Width="1366"
+        FontFamily="Segoe UI" WindowStyle="None"
+        WindowStartupLocation="CenterOwner" WindowState="Maximized" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".2*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Background="#00b300">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="*" ></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0">
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock FontSize="16" FontFamily="Yu Gothic" Margin="10 5" Foreground="White">Numero de Control:</TextBlock>
+                    <TextBlock x:Name="txtNumFactura" FontSize="16" FontFamily="Yu Gothic" Margin="10 5" Foreground="White" >12-123456789</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock FontSize="16"  Margin="10 5" Foreground="White" >Fecha:</TextBlock>
+                    <materialDesign:PackIcon Kind="Person" VerticalAlignment="Center" Foreground="White"/>
+                    <TextBlock Name="lbDate" FontSize="16"  Margin="10 5" Foreground="White">12-11-2020</TextBlock>
+                    <TextBlock Name="lbClock" FontSize="16"  Margin="10 5" Foreground="White">00:00</TextBlock>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel Grid.Row="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <materialDesign:PackIcon Kind="person" VerticalAlignment="Center" Margin="10 0 0 0" Foreground="white"/>
+                    <Label FontSize="16" Margin="5" Foreground="White" >Cliente:</Label>
+                    <Label x:Name="lblClientName" FontSize="16" Margin="5" Foreground="White"/>
+                    <Label x:Name="lblClientBalance" FontSize="16" Margin="10 5" Foreground="White"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="person" VerticalAlignment="Center" Margin="10 0 0 0" Foreground="white"/>
+                    <TextBlock x:Name="txtUserName" FontSize="16"   Margin="10 5" Foreground="White" >Apellido, Nombre</TextBlock>
+                </StackPanel>
+            </DockPanel>
+
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="1" Grid.ColumnSpan="5">
+                    <TextBox  x:Name="txtCodigoProd" materialDesign:HintAssist.Hint="Buscar producto" Foreground="Black" 
+                                       Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" VerticalAlignment="Center" Background="white"
+                                      BorderThickness="0" InputScope="Number" KeyDown="TxtCodigoProd_KeyDown"/>
+                </Grid>
+
+                <Grid Grid.Column="6">
+                    <Button Style="{StaticResource MaterialDesignIconButton}" Click="BtnKeypad_Click" >
+                        <materialDesign:PackIcon Kind="Keyboard" Width="auto" Height="auto"  Foreground="White" />
+                    </Button>
+                </Grid>
+
+                <StackPanel Grid.Column="9" Grid.ColumnSpan="3" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Label  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="22" Foreground="White" FontWeight="Bold">Tasa:</Label>
+                    <Label  Grid.RowSpan="2" Name="lbTasa" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Foreground="White" FontWeight="Bold">00.000.000</Label>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width=".25*"/>
+            </Grid.ColumnDefinitions>
+
+
+                        <!--CanUserResizeColumns="False"-->
+            <DataGrid x:Name="dgListProduct"
+                        Style="{DynamicResource MaterialDesignDataGrid}"
+                        AutoGenerateColumns="False" 
+                        IsReadOnly="True"
+                        CanUserSortColumns="False"
+                        CanUserReorderColumns="False"    
+                        AlternatingRowBackground="#eee"
+                      >
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="5 0"/>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#e7ecef"/>
+                                <Setter Property="Foreground" Value="black"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+
+                    <!--Binding="{Binding Descripcion}" TextWrapping="Wrap" Header="ITEM"-->
+                    <DataGridTextColumn Width="auto" Header="CÓDIGO" IsReadOnly="True" Binding="{Binding Code}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                <Setter Property="TextBlock.FontWeight" Value="Regular" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="2*" Header="DESCRIPCIÓN" IsReadOnly="True" Binding="{Binding Descripcion}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                <Setter Property="TextBlock.FontWeight" Value="Regular" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn  Header="PRECIO" Width="auto" Binding="{Binding UnitPriceBs, StringFormat=N2, ConverterCulture='es-ES' }">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn  Header="CANT." Width="150" Binding="{Binding Quantity}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn  Header="% Des" Width="*"  Visibility="Hidden" Binding="{Binding DiscountPercentage , StringFormat= P}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.FontWeight" Value="Regular" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn  Header="Total" Width="auto" Binding="{Binding TotalBs,StringFormat=N2, ConverterCulture='es-ES'}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn  Header="Ref." Width="auto" Binding="{Binding TotalRef }">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTemplateColumn Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" >
+                                    <Button x:Name="btnEditDeleteProduct" Margin="5 2" BorderThickness="1" Click="BtnEditDeleteProduct_Click">
+                                        <materialDesign:PackIcon Kind="Edit"/>
+                                    </Button>
+                                    <Button x:Name="btnDiscountProduct" Margin="5 2" BorderThickness="1" Click="BtnDiscountProduct_Click">
+                                        <materialDesign:PackIcon Kind="Percent"/>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Grid.Column="1" Background="#0C7E0C">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5 0" FontSize="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left"  >SubTotal</TextBlock>
+                    <TextBlock x:Name="lbSubtotal" Grid.Row="1" Margin="10 5" Grid.Column="3" Grid.ColumnSpan="2" FontSize="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" >0</TextBlock>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5 0"  FontSize="20" Foreground="White"  VerticalAlignment="Center" HorizontalAlignment="Left">Descuento</TextBlock>
+                    <TextBlock x:Name="lbDescuento" Grid.Row="3" Margin="10 5" Grid.Column="3" Grid.ColumnSpan="2" FontSize="25" Foreground="White"  VerticalAlignment="Center" HorizontalAlignment="Right">00%</TextBlock>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="5 0"  FontSize="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left">Impuesto</TextBlock>
+                    <TextBlock x:Name="lbImpuesto" Grid.Row="5" Margin="10 5" Grid.Column="3" Grid.ColumnSpan="2" FontSize="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right">00</TextBlock>
+                </Grid>
+
+
+                <StackPanel Grid.Row="1">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock FontSize="20" Grid.Row="0" Margin="10 5 5 5" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left">Total</TextBlock>
+                        <TextBlock x:Name="lbTotal" Grid.Row="1" Margin="0 0 10 0" Grid.Column="0" FontSize="25" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Right">0</TextBlock>
+                        <TextBlock x:Name="lbRefTotal" Grid.Row="2" Margin="0 0 10 0" Grid.Column="0" FontSize="25" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Right">0</TextBlock>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="10 0 0 5" FontSize="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left">Cancelado</TextBlock>
+                        <TextBlock x:Name="lbCancelado" Grid.Row="4" Grid.Column="0" Margin="0 0 10 0" FontSize="25" Foreground="White" HorizontalAlignment="Right">00</TextBlock>
+                        <TextBlock x:Name="lbRefCancelado" Grid.Row="5" Margin="0 0 10 0" Grid.Column="0" FontSize="25" Foreground="White" HorizontalAlignment="Right">00</TextBlock>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Margin="10 0 0 5"  FontSize="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left">Restante</TextBlock>
+                        <TextBlock x:Name="lbRestante" Grid.Row="7" Grid.Column="0" Margin="0 0 10 0"  FontSize="25" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Right">00</TextBlock>
+                        <TextBlock x:Name="lbRefRestante" Grid.Row="8" Margin="0 0 10 0" Grid.Column="1"  FontSize="25" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Right">00</TextBlock>
+
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <UniformGrid Grid.Row="2" Rows="1">
+
+            <Button x:Name="btnPayment" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnPayment_Click">
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="Cash" Width="auto" Height="auto" Foreground="White" />
+                    <TextBlock Foreground="White"  TextAlignment="Center" TextWrapping="Wrap"  Text="PAGAR FACTURA"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnProductData" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnProductData_Click">
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="FeatureSearch" Width="auto" Height="auto" Foreground="White" />
+                    <TextBlock Foreground="White"  TextAlignment="Center" TextWrapping="Wrap"  Text="CONSULTAR PRODUCTO"></TextBlock>
+                </StackPanel>
+            </Button> 
+            
+            <Button x:Name="btnSaveInvoice" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnSaveInvoice_Click">
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="ArrowDown" Width="auto" Height="auto" Foreground="White"/>
+                    <TextBlock Foreground="White" TextAlignment="Center" TextWrapping="Wrap" Text="GUARDAR FACTURA"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnGetInvoice" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnGetInvoice_Click">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Search" Width="auto" Height="auto" Foreground="White"/>
+                    </StackPanel>
+                    <TextBlock Foreground="White" TextAlignment="Center" TextWrapping="Wrap" Text="RECUPERAR FACTURA"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnCleanInvoice" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnCleanInvoice_Click">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Close" Width="auto" Height="auto" Foreground="White"/>
+                    </StackPanel>
+                    <TextBlock Foreground="White" TextAlignment="Center" TextWrapping="Wrap" Text="LIMPIAR FACTURA"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnReturnInvouice" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnReturnInvouice_Click">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="AssignmentReturn" Width="auto" Height="auto" Foreground="White"/>
+                    </StackPanel>
+                    <TextBlock Foreground="White" TextAlignment="Center" TextWrapping="Wrap" Text="DEVOLUCION FACTURA"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnReprintInvoice" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnReprintInvoice_Click">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Printer" Width="auto" Height="auto" Foreground="White"/>
+                    </StackPanel>
+                    <TextBlock Foreground="White" TextWrapping="Wrap" TextAlignment="Center"  Text="REIMPRIMIR FACTURA"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnDiscountInvoice" Margin="2" FontSize="9" Background="#009900" Style="{x:Null}" Click="BtnDiscountInvoice_Click">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Discount" Width="auto" Height="auto" Foreground="White"/>
+                    </StackPanel>
+                    <TextBlock Foreground="White" TextWrapping="Wrap" TextAlignment="Center"  Text="DESCUENTO FACTURA"></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="btnOpenGavela" Margin="2"  FontSize="9"  Background="#009900" Style="{x:Null}" Click="BtnOpenGavela_Click" >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="DoorOpen" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="White" TextWrapping="Wrap" TextAlignment="Center" Text="ABRIR GAVETA" ></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="btnChangeClient" Margin="2" FontSize="9" Background="#FFAF02" Style="{x:Null}" Click="BtnChangeClient_Click"  >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="PersonAdd" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="CAMBIAR CLIENTE" ></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="btnChangePasswordWallet" Margin="2" Background="#FFAF02" FontSize="9" Style="{x:Null}" Click="BtnChangePasswordWallet_Click"  >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="PasswordReset" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="CAMBIAR clave CLIENTE" ></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="btnKeyboardFast" Margin="2" FontSize="9" Background="#FFAF02" Style="{x:Null}" Click="BtnKeyboardFast_Click"   >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Keyboard" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="TECLADO RAPIDO" ></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="btnSearchProduct" Margin="2" FontSize="9" Background="#FFAF02" Style="{x:Null}" Click="BtnSearchProduct_Click" >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="SearchAdd" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="BUSCAR&#10;PRODUCTO" ></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnPrintVoucher" Margin="2" FontSize="9" Background="#FFAF02" Style="{x:Null}" Click="BtnPrintVoucher_Click" >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Voucher" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="IMPRIMIR VOUCHER" ></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnPrintPreClose" Margin="2" FontSize="9" Background="#FFAF02" Style="{x:Null}" Click="BtnPrintPreClose_Click" >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="VoucherOutline" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="IMPRIMIR PRECIERRE" ></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnCheckPeripherals" Margin="2" FontSize="9" Background="#FFAF02" Style="{x:Null}" Click="BtnCheckPeripherals_Click" >
+                <StackPanel HorizontalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ClipboardCheck" Width="auto" Height="auto" Foreground="white"/>
+                    <TextBlock Foreground="Black" HorizontalAlignment="Center" TextAlignment="Justify" TextWrapping="Wrap" Text="VERIFICAR PERIFICOS." ></TextBlock>
+                </StackPanel>
+            </Button>
+
+
+            <Button x:Name="btnPrintX" Margin="2" Background="#FC7B00" FontSize="9" Style="{x:Null}" Click="BtnPrintX_Click" >
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="Close" Width="auto" Height="auto" Foreground="white"/>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="IMPRIMIR X" ></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="btnSuspendCaja" Margin="2" Background="#FC7B00" FontSize="9" Style="{x:Null}" Click="BtnSuspendCaja_Click" >
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="Lock" Width="auto" Height="auto" Foreground="white"/>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="SUSPENDER CAJA" ></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnCloseTurn" Margin="2" Background="#FC7B00" FontSize="9" Style="{x:Null}" Click="BtnCloseTurn_Click">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="DoorClosedLock" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="CERRAR TURNO" ></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnClosePos" Margin="2" Background="#FC7B00" FontSize="9" Style="{x:Null}" Click="BtnClosePos_Click" >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="FileCheck" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="CERRAR CAJA" ></TextBlock>
+                </StackPanel>
+            </Button>
+            <!--<Button x:Name="btnDonate" Margin="2" Background="#FC7B00" FontSize="9" Style="{x:Null}" Click="btnDonate_Click" >
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Donate" Width="auto" Height="auto" Foreground="white"/>
+                    </StackPanel>
+                    <TextBlock Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" Text="Donacion" ></TextBlock>
+                </StackPanel>
+            </Button>-->
+
+        </UniformGrid>
+
+    </Grid>
+</Window>

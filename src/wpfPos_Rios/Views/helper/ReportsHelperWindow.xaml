@@ -1,0 +1,47 @@
+﻿<Window x:Class="wpfPos_Rios.Views.helper.ReportsHelperWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
+        xmlns:local="clr-namespace:wpfPos_Rios.Views.helper"
+        mc:Ignorable="d"
+        Title="ReportsHelperWindow" Height="350" Width="400" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Grid Background="#ccc">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#003300">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="BtnBack" Margin="10 0" Background="Transparent" BorderThickness="0" Foreground="White" HorizontalAlignment="Left" Click="BtnBack_Click">
+                <materialDesign:PackIcon Kind="ArrowLeftCircle" Width="50" Height="25" />
+            </Button>
+                <Label Foreground="White" VerticalAlignment="Center" FontSize="19" > Imprimir Vouchers</Label>
+            </StackPanel>
+            
+        </Grid>
+
+
+        <Grid Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+                <Button x:Name="btnLastVoucher"   Height="55" Width="310"  Margin="10 10" Background="#00b300" Foreground="White" Click="btnLastVoucher_Click" HorizontalAlignment="Right">Ultimo Voucher</Button>
+                <Button x:Name="btnLastVoucherProcesado"   Height="55" Width="310"  Margin="10 10" Background="#00b300" Foreground="White" Click="btnLastVoucherProcesado_Click" HorizontalAlignment="Right">Ultimo Voucher Procesado</Button>
+                <Button x:Name="btnCLosePosReport" Background="#00b300" Width="310" Height="55" Margin="10 10" Foreground="White"  Click="btnCLosePosReport_Click" HorizontalAlignment="Left">Reporte de Forma de Pagos(Todos)</Button>
+                <Button x:Name="btnCloseTurnReport" Background="#00b300" Width="310" Height="55" Margin="10 10" Foreground="White"  Click="btnCloseTurnReport_Click" HorizontalAlignment="Left" Visibility="Hidden">Reporte de Forma de Pago del Turno actual</Button>
+
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Window>

@@ -1,0 +1,232 @@
+﻿<Window x:Class="wpfPos_Rios.Views.DevolucionParcial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:wpfPos_Rios.Views"
+        mc:Ignorable="d" ResizeMode="NoResize" WindowStyle="None"
+        Title="DevolucionParcial" WindowState="Maximized" WindowStartupLocation="CenterScreen"   >
+    <Border BorderThickness="1">
+        <Grid>
+            <!--WindowState="Maximized"-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+            <Grid Background="#004600">
+                <TextBlock Margin="5" FontSize="30" Text="Devolucion Parcial" Foreground="White"/>
+            </Grid>
+
+
+            <Grid Grid.Row="1">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Black" BorderThickness="1.5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <DataGrid x:Name="dgListProduct"
+                        IsReadOnly="True" AutoGenerateColumns="False"
+                        CanUserSortColumns="False"
+                        CanUserReorderColumns="False"  
+                        AlternatingRowBackground="#eee">
+                                <DataGrid.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="FontSize" Value="8"/>
+                                        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Style>
+                                </DataGrid.Resources>
+
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="80" Header="CÓDIGO" IsReadOnly="True" Binding="{Binding codigoproducto}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                                <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                                                <Setter Property="TextBlock.FontWeight" Value="Regular" />
+                                                <Setter Property="TextBlock.FontSize" Value="10"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn  Header="DESCRIPCIÓN" IsReadOnly="True" Binding="{Binding descripcion}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                                                <Setter Property="TextBlock.FontWeight" Value="Regular" />
+                                                <Setter Property="TextBlock.FontSize" Value="12"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle> 
+                                    </DataGridTextColumn>
+                                    <!--<DataGridTextColumn  Header="PRECIO"  Binding="{Binding precio, StringFormat=N2, ConverterCulture='es-VE'}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.FontSize" Value="10" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn  Header="CANT." Binding="{Binding cantidad}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.FontSize" Value="10"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn  Header="Total" Binding="{Binding totalneto,StringFormat=N2, ConverterCulture='es-VE'}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.FontSize" Value="10"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>-->
+
+
+                                    <DataGridTemplateColumn Header="Precios cantidad" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label VerticalAlignment="Center" Content="p.u "/>
+                                                        <TextBlock VerticalAlignment="Center" Text="{Binding precio, StringFormat=N2, ConverterCulture='es-VE'}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label VerticalAlignment="Center" Content="cant. "/>
+                                                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding cantidad}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label VerticalAlignment="Center" Content="total "/>
+                                                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding totalneto,StringFormat=N2, ConverterCulture='es-VE'}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+
+
+                                    <DataGridTemplateColumn Header="Agregar" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnAddReturn" Click="BtnAddReturn_Click">
+                                                    <materialDesign:PackIcon Kind="plus"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                        <Grid Grid.Column="1" Background="#004600"></Grid>
+
+                        <Grid Grid.Column="2">
+                            <DataGrid x:Name="dgListReturn"
+                                IsReadOnly="True" AutoGenerateColumns="False"
+                                CanUserSortColumns="False"
+                                CanUserReorderColumns="False"  
+                                AlternatingRowBackground="#eee">
+                                <DataGrid.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="FontSize" Value="8"/>
+                                        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Style>
+                                </DataGrid.Resources>
+
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="CÓDIGO" IsReadOnly="True" Binding="{Binding codigoproducto}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.FontWeight" Value="Regular" />
+                                                <Setter Property="TextBlock.FontSize" Value="10"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn Header="DESCRIPCIÓN" IsReadOnly="True" Binding="{Binding descripcion}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.FontWeight" Value="Regular" />
+                                                <Setter Property="TextBlock.FontSize" Value="10"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn  Header="Cant Dev." Width="70" Binding="{Binding cantidadDevolver}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.FontSize" Value="10"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn  Header="Total" Binding="{Binding totalneto,StringFormat=C2, ConverterCulture='es-VE'}">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style>
+                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                <Setter Property="TextBlock.FontSize" Value="10"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+
+                                    <DataGridTemplateColumn Header="Eliminar" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnRemoveReturn" BorderBrush="Transparent" Background="#FC7B00" Click="BtnRemoveReturn_Click">
+                                                    <materialDesign:PackIcon Kind="MinusBox"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Name="btnCancel" Background="#d04130" Margin="10" Foreground="White" Content="Cancelar operacion" Click="BtnCancel_Click"/>
+                    <Button Name="btnReturn" Margin="10" Foreground="White" Content="Realizar Devolucion" Click="BtnReturn_Click"/>
+                </StackPanel>
+                
+            </Grid>
+            
+           
+        </Grid>
+    </Border>
+</Window>
